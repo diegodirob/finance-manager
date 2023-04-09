@@ -9,6 +9,8 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
 
+    monetary_capital = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
