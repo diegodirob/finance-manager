@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  database:
+    image: postgres:14
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: finance-manager
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    networks: 
+      - default
+
+  backend:
+    restart: always
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile
+    command: bash /code/backend.sh
+    environment:
+      MODE: development
+    ports:
+      - 8000:8000
+    volumes:
+      - ./django:/code/
+    depends_on: 
+      - database
+    networks: 
+      - default
+
+  # q2:
+  #   restart: always
+  #   build: 
+  #     context: .
+  #     dockerfile: ./docker/Dockerfile
+  #   command: bash /code/entrypoint-q2.sh
+  #   environment:
+  #     MODE: development
+  #   volumes:
+  #     - ./django:/code/
+  #   depends_on: 
+  #     - database
+  #   networks: 
+  #     - default
+    
+volumes:
+  database-data:
+
+networks: 
+  default:
+    driver: bridge
