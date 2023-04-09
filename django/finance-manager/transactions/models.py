@@ -33,7 +33,7 @@ class TransactionInfo(CreatedUpdatedMixin):
     is_revenue = models.BooleanField(choices=((True, 'Revenue'), (False, 'Expenses')))
     revenue_type = models.CharField(max_length=32, choices=RevenueType.choices, null=True, blank=True)
     expenses_type = models.CharField(max_length=32, choices=ExpensesType.choices, null=True, blank=True)
-    description = models.CharField(null=True, blank=True)
+    description = models.CharField(max_length=128, null=True, blank=True)
 
     class Meta:
         abstract = True
