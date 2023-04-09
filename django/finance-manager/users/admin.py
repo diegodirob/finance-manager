@@ -6,10 +6,9 @@ from users.models import User
 
 
 @admin.register(User)
-class CustomUserAdmin(UserAdmin):
+class UserAdmin(UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
-    model = User
     list_display = ('email', 'is_staff', 'is_active',)
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
@@ -23,7 +22,7 @@ class CustomUserAdmin(UserAdmin):
                 'email', 'password1', 'password2', 'is_staff',
                 'is_active', 'groups', 'user_permissions'
             )}
-        ),
+         ),
     )
     search_fields = ('email',)
     ordering = ('email',)

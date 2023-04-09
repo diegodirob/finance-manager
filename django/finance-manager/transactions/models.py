@@ -45,9 +45,9 @@ class Recurring(TransactionInfo):
         MONTHLY = 'Monthly', 'Monthly'
         ANNUALLY = 'Annually', 'Annually'
 
-    until = models.DateField()
-    repeat = models.CharField(max_length=16, choices=RepeatType.choices, null=True, blank=True)
-    is_active = models.BooleanField(default=False)
+    until = models.DateField(null=True, blank=True)
+    repeat = models.CharField(max_length=16, choices=RepeatType.choices,)
+    is_active = models.BooleanField(choices=((True, 'Active'), (False, 'Not Active')))
 
 
 class Transaction(TransactionInfo):
