@@ -4,7 +4,7 @@ from commons.models import CreatedUpdatedMixin
 from users.models import User
 
 
-class TransactionInfo(CreatedUpdatedMixin):
+class Transaction(CreatedUpdatedMixin):
     class ExpensesType(models.TextChoices):
         FOODS = 'Foods', 'Foods'
         GIFTS = 'Gifts', 'Gifts'
@@ -35,20 +35,22 @@ class TransactionInfo(CreatedUpdatedMixin):
     expenses_type = models.CharField(max_length=32, choices=ExpensesType.choices, null=True, blank=True)
     description = models.CharField(max_length=128, null=True, blank=True)
 
-    class Meta:
-        abstract = True
+    def __str__(self):
+        return f'{"+" if self.is_revenue else "-"}{self.amount}'
 
 
-class Recurring(TransactionInfo):
+class Recurring(CreatedUpdatedMixin):
     class RepeatType(models.TextChoices):
         WEEKLY = 'Weekly', 'Weekly'
         MONTHLY = 'Monthly', 'Monthly'
         ANNUALLY = 'Annually', 'Annually'
 
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+
     until = models.DateField(null=True, blank=True)
     repeat = models.CharField(max_length=16, choices=RepeatType.choices,)
     is_active = models.BooleanField(choices=((True, 'Active'), (False, 'Not Active')))
+    description = models.CharField(max_length=128, null=True, blank=True)
 
-
-class Transaction(TransactionInfo):
-    pass
+    def __str__(self):
+        return f'{self.transaction} | {self.repeat}'

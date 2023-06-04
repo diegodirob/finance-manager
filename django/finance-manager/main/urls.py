@@ -18,10 +18,17 @@ from django.contrib import admin
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 
+from transactions.apis.urls import api as transaction_apis
+
 urlpatterns = [
+    # Base redirect
     path('', RedirectView.as_view(url=reverse_lazy('admin:index'))),
 
+    # Admin
     path('admin/', admin.site.urls),
+
+    # Apis
+    path('api/', transaction_apis.urls),
 ]
 
 
